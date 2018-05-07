@@ -24,22 +24,21 @@ public:
 		ord[s] = 0;
 
 		queue<int> q;
-		q.push(s);	// initialize the queue
+		q.push(s);
 
-		while (!q.empty())	//  broad iteration
+		while (!q.empty())
 		{
-			int current_element = q.front();		// take out the first vectex in the queue
+			int current_element = q.front();
 			q.pop();
-
-			typename Graph::adjIterator adj(graph, current_element);		// get the nearest vectexs
+			typename Graph::adjIterator adj(graph, current_element);
 			for (int i = adj.begin(); !adj.end(); i = adj.next())
 			{
-				if (!visited[i])		// don't visit the vectre if it is already visited, to find shortest path and avoid having loop
+				if (!visited[i])
 				{
-					visited[i] = true;	// update three arrays
+					visited[i] = true;
 					from[i] = current_element;
-					ord[i] = ord[current_element] + 1;	
-					q.push(i);		// to find the nearest vectexs of this vectex later
+					ord[i] = ord[current_element] + 1;
+					q.push(i);
 				}
 			}
 		}

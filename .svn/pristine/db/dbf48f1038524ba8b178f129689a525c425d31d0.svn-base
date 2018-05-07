@@ -31,11 +31,11 @@ class Path
 public:
 	Path(Graph& graph, int s): G(graph), s(s)
 	{
+		
 		assert(s >= 0 && s<G.V());
-		visited = new bool[G.V()]{false};	// every point is not visited
-		from = new int[G.V()]{-1};		// every point is isolated
-		from[s] = s;
-		dfs(s);
+		visited = new bool[G.V()]{false};
+		from = new int[G.V()]{-1};
+		dfs(s); 
 	}
 
 	~Path()
@@ -50,16 +50,15 @@ public:
 		return visited[w];
 	}
 
-	void path(int w, vector<int>& vec) const 
+	void path(int w, vector<int>& vec) const		// delete p and use w directly
 	{
 		assert(w >= 0 && w < G.V());
-		stack<int> s;	// since the vectre we get is from destination to origin, we use a 
-		while (from[w] != w)		// use from[w] to find the previous vectre of w
+		stack<int> s;
+		while (w != -1)
 		{
 			s.push(w);
 			w = from[w];
 		}
-		s.push(w);
 		vec.clear();
 		while (!s.empty())
 		{
@@ -72,10 +71,10 @@ public:
 	{
 		vector<int> vec;
 		path(w, vec);
-		for (int i = 0; i < int(vec.size()); i++)
+		for(int i = 0;i<int(vec.size());i++)
 		{
 			cout << vec[i];
-			if (i == int(vec.size() - 1))
+			if(i==int(vec.size()-1))
 			{
 				cout << endl;
 			}

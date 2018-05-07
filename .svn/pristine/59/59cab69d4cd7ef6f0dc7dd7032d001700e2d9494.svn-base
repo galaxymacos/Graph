@@ -7,37 +7,36 @@ using namespace std;
 
 class SparseGraph
 {
-	int vectex; 
-	int edge = 0;
+	int n, m;
 	bool directed;
 	vector<vector<int>> g;
 
 public:
-	SparseGraph(int vectex,bool directed):vectex(vectex),directed(directed)
+	SparseGraph(int n,bool directed):n(n),m(0),directed(directed)
 	{
-		for(auto i = 0;i<vectex;i++)
+		for(auto i = 0;i<n;i++)
 		{
 			g.emplace_back(vector<int>());
 		}
 	}
 
-	int V() const { return vectex; }
-	int E() const { return edge; }
+	int V() const { return n; }
+	int E() const { return m; }
 
 	void addEdge(int v,int w)
 	{
-		assert(v >= 0 && v < vectex);
-		assert(w >= 0 && w < vectex);
+		assert(v >= 0 && v < n);
+		assert(w >= 0 && w < n);
 		g[v].push_back(w);
 		if (v!=w&&!directed)		
 			g[w].push_back(v);
-		edge++;
+		m++;
 	}
 
 	bool hasEdge(int v,int w)
 	{
-		assert(v >= 0 && v < vectex);
-		assert(w >= 0 && w < vectex);
+		assert(v >= 0 && v < n);
+		assert(w >= 0 && w < n);
 		for (auto i : g[v])
 		{
 			if (i == w)

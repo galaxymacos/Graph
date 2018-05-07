@@ -14,10 +14,10 @@ public:
 	ReadGraph(Graph& graph, const string& filename)
 	{
 		ifstream file(filename);
+		string line;
 		int V, E;
 		assert(file.is_open());
 
-		string line;
 		assert(getline(file, line));
 		stringstream size_container(line);
 		size_container >> V >> E;
@@ -25,7 +25,7 @@ public:
 
 		for (int i = 0; i < E; i++)
 		{
-			assert(getline(file, line));
+			getline(file, line);
 			stringstream v_e_container(line);
 			int a, b;
 			v_e_container >> a >> b;

@@ -10,33 +10,33 @@ class Component
 	Graph& G;
 	bool* visited;
 	int* id;
-	int cCount;
+	int currentID = 0;
 
-	void dfs(int v) const
+	void dfs(int v) const	// find the vectexs that are connected to v
 	{
-		visited[v] = true;
-		id[v] = cCount;
-		typename Graph::adjIterator adj(G, v);
+		visited[v] = true;	// v is connected to v absolutely
+		id[v] = currentID;
+
+		typename Graph::adjIterator adj(G, v);	// look for the nearest vectexs of v
 		for (int i = adj.begin(); !adj.end(); i = adj.next())
 		{
-			if (!visited[i])
-				dfs(i);
+			if (!visited[i])			// prevent the situation where a -> b and b -> a and so on...
+				dfs(i);				// find the adjacent vectexs of the current adjacent vectex(i) of v
 		}
 	}
 
 public:
-	explicit Component(Graph& graph): G(graph),cCount(0)
+	explicit Component(Graph& graph): G(graph)
 	{
 		visited = new bool[G.V()]{false};
 		id = new int[G.V()]{-1};
 
-		for (int i = 0; i < G.V(); i++)
+		for (int i = 0; i < G.V(); i++) // to each vectex, try to find the vectexs that are connected to it
 		{
-			if (!visited[i])
-			{
-				dfs(i);
-				cCount++;
-			}
+			if (visited[i])	// if this vectex already has some vectexs connecting to it, jump to look for the next vectex
+				continue;
+			dfs(i);			// find the vectexs that are connected to i
+			currentID++;		// to separate each connected component
 		}
 	}
 
@@ -48,7 +48,7 @@ public:
 
 	int count() const
 	{
-		return cCount;
+		return currentID;
 	}
 
 	bool isConnect(int v, int w) const
